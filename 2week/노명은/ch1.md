@@ -3,6 +3,8 @@
 ## 1️⃣ 단일 서버
 
 - 웹 앱, 데이터베이스, 캐시 등이 전부 서버 한 대에서 실행
+  
+![CamScanner 2024-01-31 12 28(1)_1](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/e4b76f7e-1b94-47ca-ae68-5f2eb41dab8f)
 - 사용자 요청 처리 흐름
     1. 도메인 이름을 이용하여 웹사이트에 접속
     2. DNS 조회 결과 IP 주소 반환
@@ -37,6 +39,8 @@
 → 수직적 규모 확장은 단순하기 때문에 트래픽 양이 적을 때는 좋지만,
 
 → 확장의 한계, 장애에 대한 자동복구(failover) 방안이나 다중화(redundancy) 방안 없다는 문제
+
+![CamScanner 2024-01-31 12 44(1)_1](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/cf9158c5-2579-4ff6-8959-8b8730180b4f)
 
 `❗️웹 서버 다운 or 트래픽 증가 → 웹 서버들에게 트래픽 부하를 고르게 분산하는 로드밸런서`
 
@@ -77,7 +81,7 @@
 - 캐시 계층 : 데이터가 잠시 보관되는 빠른 저장소
 - 장점 → 성능 개선, 데이터 베이스 부하 감소, 캐시 계층 독립적 확장 가능
 - 캐시 서버를 두는 방법 예시 : 읽기 주도형 캐시 전략
-    - 사진
+    - ![CamScanner 2024-01-31 12 44(1)_2](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/776566e2-51f5-402d-bcfd-9fc9177eca92)
 
 ### 캐시 사용 시 유의할 점
 
@@ -97,6 +101,7 @@
     → 사용자와 CDN 서버의 거리에 따라 로드 속도 달라진다.
     
 - CDN의 동작 과정
+  ![CamScanner 2024-01-31 12 44(1)_3](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/a5850584-80a8-400e-a1ab-1cb1c31857ae)
     1. 사용자 A가 이미지 URL을 이용해 image.png에 접근 (URL 도메인은 CDN 서비스 사업자 제공)
     2. CDN 서버의 캐시에 해당 이미지가 없는 경우, 서버는 원본 서버에 요청하여 파일 가져옴
     3. 원본 서버가 파일을 CDN 서버에 반환
@@ -124,6 +129,7 @@
 - 같은 클라이언트로부터의 요청은 항상 같은 서버로 전송되어야한다는 문제
 
 ### 무상태 아키텍처
+![CamScanner 2024-01-31 12 44(1)_4](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/043f13d6-4984-41c3-aec7-7b1b1cce1c82)
 
 - 사용자로부터의 HTTP 요청은 어떤 웹 서버로도 전달 가능
 - 상태 정보가 필요할 경우 공유 저장소로부터 데이터 가져옴 (상태 정보가 웹 서버로부터 물리적으로 분리)
@@ -156,6 +162,8 @@
     ( 무손실 : 메시지 큐에 일단 보관된 메시지는 소비자가 꺼낼 때까지 안전히 보관된다는 특성)
     
 - 기본 아키텍처
+  ![CamScanner 2024-01-31 12 44(1)_5](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/36689434-4dd7-4bf3-b22e-1382a9f8be27)
+
     - 생산자/발행자 : 입력서비스로 메시지를 만들어 메시지 큐에 발행
     - 소비자/구독자 : 연결된 큐에서 메시지를 받아 동작 수행
 - 장점
@@ -190,6 +198,7 @@
 `❗️데이터 베이스의 규모 확장`
 
 ## 🔟 데이터베이스의 규모 확장
+![CamScanner 2024-01-31 12 44(1)_6](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/f8ad385f-4d03-4a21-973c-26919a249b34)
 
 ### 수직정 확장
 
@@ -203,6 +212,7 @@
 
 - 더 많은 서버를 추가
 - 샤딩(Sharding) : 대규모 데이터 베이스를 샤드라고 불리는 작은 단위로 분할. 모든 샤드는 같은 스키마, 중복 없는 데이터 저장
+  ![CamScanner 2024-01-31 12 44(1)_7](https://github.com/NoMyeongEun/24-1_Study_Large-ScaleSystemDesign/assets/90135669/e5e7e1c0-c9f1-485b-b8cf-305f20f15f94)
 - 샤딩 전략을 구현할 때 가장 중요한 것 : 샤딩 키의 정의
     - 샤딩 키(파티션 키) : 데이터가 어떻게 분산될지 정하는 하나 이상의 칼럼으로 구성
         
